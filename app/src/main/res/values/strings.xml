@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Concierge</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_profile">Profile</string>
+    <string name="save_profile">Save</string>
+    <string name="title_activity_concierge_profile">Concierge Profile</string>
+
+    <string name="name_hint">Enter your name</string>
+    <string name="id_hint">Enter your employee ID</string>
+
+    </resources>
