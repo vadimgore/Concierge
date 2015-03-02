@@ -11,6 +11,8 @@
 
     <string name="name_hint">Enter your name</string>
     <string name="id_hint">Enter your employee ID</string>
+    <string name="title_hint">Enter your job title</string>
+    <string name="expertise_hint">Enter areas of expertise</string>
 
     <string name="take_photo">Camera</string>
     <string name="load_image">Gallery</string>

@@ -81,6 +81,7 @@ class HttpPoster extends AsyncTask<String, String, String> {
     }
 
     protected void onPostExecute(String result) {
-        Toast.makeText(mContext, TAG + ":onPostExecute: " + result, Toast.LENGTH_LONG).show();
+        Log.i(TAG, "onPostExecute: " + result);
+        Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();
     }
 }

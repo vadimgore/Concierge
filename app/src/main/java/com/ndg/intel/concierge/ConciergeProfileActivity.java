@@ -42,6 +42,9 @@ public class ConciergeProfileActivity extends ActionBarActivity {
     private ImageView mPhoto;
     private EditText mName;
     private EditText mID;
+    private EditText mTitle;
+    private EditText mSpecialty;
+
     private CheckBox mEnglish;
     private CheckBox mFrench;
     private CheckBox mSpanish;
@@ -69,6 +72,9 @@ public class ConciergeProfileActivity extends ActionBarActivity {
 
         mName = (EditText) findViewById(R.id.name);
         mID = (EditText) findViewById(R.id.id);
+        mTitle = (EditText) findViewById(R.id.title);
+        mSpecialty = (EditText) findViewById(R.id.specialty);
+
         mEnglish = (CheckBox) findViewById(R.id.checkbox_english);
         mFrench = (CheckBox) findViewById(R.id.checkbox_french);
         mSpanish = (CheckBox) findViewById(R.id.checkbox_spanish);
@@ -137,7 +143,7 @@ public class ConciergeProfileActivity extends ActionBarActivity {
             Bitmap imageBitmap;
             BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
             imageBitmap = BitmapFactory.decodeFile(selectedImagePath, bitmapOptions);
-            imageBitmap = new ExifUtil().rotateBitmap(selectedImageUri.toString(), imageBitmap);
+            //imageBitmap = new ExifUtil().rotateBitmap(selectedImageUri.toString(), imageBitmap);
             double scaleFactor = 256.0 / imageBitmap.getHeight();
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(imageBitmap, (int) (imageBitmap.getWidth()*scaleFactor),
                     (int) (imageBitmap.getHeight()*scaleFactor), false);
@@ -168,6 +174,8 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         editor.clear();
         editor.putString("name", mName.getText().toString());
         editor.putString("id", mID.getText().toString());
+        editor.putString("title", mTitle.getText().toString());
+        editor.putString("specialty", mSpecialty.getText().toString());
 
         // Languages
         for (String s : mLanguages) {
@@ -208,6 +216,16 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         String id = mSharedPref.getString("id", "");
         if( !id.equalsIgnoreCase("") ){
             mID.setText(id);
+        }
+
+        String title = mSharedPref.getString("title", "");
+        if( !title.equalsIgnoreCase("") ){
+            mTitle.setText(title);
+        }
+
+        String specialty = mSharedPref.getString("specialty", "");
+        if( !specialty.equalsIgnoreCase("") ){
+            mSpecialty.setText(specialty);
         }
 
         for (Language l : Language.values()) {
@@ -258,6 +276,8 @@ public class ConciergeProfileActivity extends ActionBarActivity {
                 miFashionIP + ":" + miFashionPort + miFashionAPI,
                 mName.getText().toString(),
                 mID.getText().toString(),
+                mTitle.getText().toString(),
+                mSpecialty.getText().toString(),
                 languages.toString(),
                 encodeBitmap( ((BitmapDrawable)mPhoto.getDrawable()).getBitmap()),
                 mGcmRegid
