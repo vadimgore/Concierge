@@ -7,6 +7,13 @@
         android:title="@string/action_profile"
         app:showAsAction="always" />
 
+    <item android:id="@+id/action_cloud_settings"
+        android:icon="@drawable/cloud_settings"
+        android:title="@string/action_cloud_settings"
+        app:showAsAction="always" />
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+
+
 </menu>

@@ -21,13 +21,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
-                android:textColor="@color/white">
+                android:textColor="@color/red">
             </TextView>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:background="@color/white">
+                android:background="@color/red">
             </View>
 
             <LinearLayout
@@ -42,7 +42,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:textSize="18dp"
-                    android:textColor="@color/white">
+                    android:textColor="@color/red">
                 </TextView>
 
                 <EditText
@@ -50,7 +50,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name_hint"
-                    android:textColorHint="@color/beige"
+                    android:textColorHint="@color/ltgray"
                     android:inputType="textPersonName">
                 </EditText>
              </LinearLayout>
@@ -67,7 +67,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:textSize="18dp"
-                    android:textColor="@color/white">
+                    android:textColor="@color/red">
                 </TextView>
 
                 <EditText
@@ -75,44 +75,98 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/id_hint"
-                    android:textColorHint="@color/beige"
+                    android:textColorHint="@color/ltgray"
                     android:inputType="text">
                 </EditText>
             </LinearLayout>
+
+            <TextView
+                android:text="LANGUAGES"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/red">
+            </TextView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/red">
+            </View>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <CheckBox android:id="@+id/checkbox_english"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="English"
+                    android:onClick="onLanguagesCheckboxClicked"/>
+                <CheckBox android:id="@+id/checkbox_french"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="French"
+                    android:onClick="onLanguagesCheckboxClicked"/>
+                <CheckBox android:id="@+id/checkbox_spanish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Spanish"
+                    android:onClick="onLanguagesCheckboxClicked"/>
+                <CheckBox android:id="@+id/checkbox_german"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="German"
+                    android:onClick="onLanguagesCheckboxClicked"/>
+            </LinearLayout>
+
+            <TextView
+                android:text="PHOTO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/red">
+            </TextView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/red">
+            </View>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp">
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:text="Photo:"
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/white">
-                </TextView>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/camera"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/camera"
+                    android:text="@string/take_photo"
                     android:onClick="onTakeImage"
-                    style="?android:attr/borderlessButtonStyle"
                 />
-                <ImageButton
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/gallery"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/load_image"
+                    android:drawableLeft="@drawable/gallery"
                     android:onClick="onLoadImage"
-                    style="?android:attr/borderlessButtonStyle"
                     />
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/concierge_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+            </ImageView>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

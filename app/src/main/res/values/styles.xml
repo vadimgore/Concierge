@@ -3,13 +3,15 @@
     <!-- Base application theme. -->
     <style name="ConciergeTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@color/tag_red</item>
+        <item name="android:windowBackground">@color/beige</item>
         <item name="android:actionBarStyle">@style/ConciergeActionBar</item>
         <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/back</item>
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/ConciergeActionBar</item>
         <item name="actionMenuTextColor">@color/white</item>
+        <item name="homeAsUpIndicator">@drawable/back</item>
     </style>
 
     <!-- ActionBar styles -->

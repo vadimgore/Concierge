@@ -8,4 +8,9 @@
         android:title="@string/save_profile"
         app:showAsAction="always" />
 
+    <item android:id="@+id/upload_profile"
+        android:icon="@drawable/cloud_upload"
+        android:title="@string/upload_profile"
+        app:showAsAction="always" />
+
 </menu>

@@ -2,8 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ndg.intel.concierge" >
 
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +29,39 @@
         </activity>
         <activity
             android:name=".ConciergeProfileActivity"
-            android:label="@string/title_activity_concierge_profile" >
+            android:label="@string/title_activity_concierge_profile"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.google.android.gcm.demo.app" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".GcmIntentService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name=".GcmHandlerActivity"
+            android:label="@string/title_activity_gcm_handler"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".CloudSettingsActivity"
+            android:label="@string/title_activity_cloud_settings"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
