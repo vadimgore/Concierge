@@ -66,15 +66,21 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent mIntent = new Intent(this, GcmHandlerActivity.class);
-        //mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        mIntent.setAction("Concierge.showCustomerProfile");
+        mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        //mIntent.setAction("Concierge.showCustomerProfile");
 
         // EXTRACT Customer Profile from Bundle
-        mIntent.putExtra("style_score", bundle.getString("style_Score"));
-        mIntent.putExtra("budget_Score", bundle.getString("budget_score"));
-        mIntent.putExtra("fav_sports", bundle.getString("fav_sports"));
-        mIntent.putExtra("fav_drinks", bundle.getString("fav_drinks"));
-        mIntent.putExtra("prod_rec", bundle.getString("prod_rec"));
+        String style_score = bundle.getString("style_score");
+        String budget_score = bundle.getString("budget_score");
+        String fav_sports =  bundle.getString("fav_sports");
+        String fav_drinks = bundle.getString("fav_drinks");
+        String prod_rec = bundle.getString("prod_rec");
+
+        mIntent.putExtra("style_score", style_score);
+        mIntent.putExtra("budget_score", budget_score);
+        mIntent.putExtra("fav_sports", fav_sports);
+        mIntent.putExtra("fav_drinks", fav_drinks);
+        mIntent.putExtra("prod_rec", prod_rec);
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mIntent, 0);
 
