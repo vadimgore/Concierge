@@ -6,6 +6,170 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.ndg.intel.concierge.GcmHandlerActivity">
 
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <TextView
+                android:text="VIP CUSTOMER ENTERED THE STORE!"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:textSize="20dp"
+                android:textColor="@color/red">
+            </TextView>
+
+            <TextView
+                android:text="CONSUMER ANALYTICS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp"
+                android:textColor="@color/red">
+            </TextView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/red">
+            </View>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Style Score:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <TextView
+                    android:id="@+id/style_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Budget Score:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <TextView
+                    android:id="@+id/budget_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Favorite Sports:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <TextView
+                    android:id="@+id/fav_sports"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Favorite Drink:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <TextView
+                    android:id="@+id/fav_drinks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:text="Product Recommendation:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <TextView
+                    android:id="@+id/prod_rec"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

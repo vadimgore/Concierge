@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -57,7 +56,6 @@ public class ConciergeProfileActivity extends ActionBarActivity {
     private String miFashionIP;
     private String miFashionPort;
     private String miFashionAPI;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,8 +256,9 @@ public class ConciergeProfileActivity extends ActionBarActivity {
             Bitmap decodedImage = decodeBitmap(encodedImage);
             mPhoto.setImageBitmap(decodedImage);
         }
-
     }
+
+
 
     public void sendToBackend() {
         StringBuilder languages = new StringBuilder();

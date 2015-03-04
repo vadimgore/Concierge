@@ -45,9 +45,11 @@ class HttpPoster extends AsyncTask<String, String, String> {
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("name", params[1]));
             nameValuePairs.add(new BasicNameValuePair("id", params[2]));
-            nameValuePairs.add(new BasicNameValuePair("languages", params[3]));
-            nameValuePairs.add(new BasicNameValuePair("photo", params[4]));
-            nameValuePairs.add(new BasicNameValuePair("gcm_regid", params[5]));
+            nameValuePairs.add(new BasicNameValuePair("title", params[3]));
+            nameValuePairs.add(new BasicNameValuePair("specialty", params[4]));
+            nameValuePairs.add(new BasicNameValuePair("languages", params[5]));
+            nameValuePairs.add(new BasicNameValuePair("photo", params[6]));
+            nameValuePairs.add(new BasicNameValuePair("gcm_regid", params[7]));
 
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             // Execute HTTP Post Request

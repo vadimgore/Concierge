@@ -68,13 +68,14 @@ public class GcmIntentService extends IntentService {
         Intent mIntent = new Intent(this, GcmHandlerActivity.class);
         //mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         mIntent.setAction("Concierge.showCustomerProfile");
-        // EXTRACT Customer Profile from Bundle here
-/*
-        mIntent.putExtra("name", bundle.getString("name"));
-        mIntent.putExtra("profile", bundle.getString("profile"));
-        mIntent.putExtra("style", bundle.getString("style"));
-        mIntent.putExtra("purchases", bundle.getString("purchases"));
-*/
+
+        // EXTRACT Customer Profile from Bundle
+        mIntent.putExtra("style_score", bundle.getString("style_Score"));
+        mIntent.putExtra("budget_Score", bundle.getString("budget_score"));
+        mIntent.putExtra("fav_sports", bundle.getString("fav_sports"));
+        mIntent.putExtra("fav_drinks", bundle.getString("fav_drinks"));
+        mIntent.putExtra("prod_rec", bundle.getString("prod_rec"));
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, mIntent, 0);
 
         NotificationCompat.Builder mBuilder =
@@ -82,10 +83,6 @@ public class GcmIntentService extends IntentService {
                         .setSmallIcon(R.drawable.gcm_notification)
                         .setContentTitle("VIP Customer Alert")
                         .setAutoCancel(true);
-
-/*                        .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(msg))
-                        .setContentText(msg);*/
 
         mBuilder.setContentIntent(contentIntent);
         mBuilder.setLights(Color.BLUE, 500, 500);
