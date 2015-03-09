@@ -4,7 +4,30 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.ndg.intel.concierge.GcmHandlerActivity">
+
+    <TextView
+        android:text="VIP CUSTOMER ENTERED!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:textColor="@color/red">
+    </TextView>
+
+    <TextView
+        android:id="@+id/customer_profile_sharing_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:textSize="18dp"
+        android:textColor="@color/red">
+    </TextView>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -12,23 +35,14 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/customer_analytics_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <TextView
-                android:text="CUSTOMER ENTERED THE STORE!"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal"
-                android:textSize="20dp"
-                android:textColor="@color/red">
-            </TextView>
-
-            <TextView
-                android:text="CUSTOMER ANALYTICS"
+                android:text="ANALYTICS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -96,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:text="Favorite Sports:"
+                    android:text="Favorite Sports"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -104,22 +118,44 @@
                     android:textSize="16dp"
                     android:textColor="@color/red">
                 </TextView>
-                <TextView
-                    android:id="@+id/fav_sports"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/gray">
-                </TextView>
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/fav_sport_football"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_sport_basketball"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_sport_golf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_sport_formula1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_sport_watersports"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:text="Favorite Drink:"
+                    android:text="Favorite Drinks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -127,17 +163,28 @@
                     android:textSize="16dp"
                     android:textColor="@color/red">
                 </TextView>
-                <TextView
-                    android:id="@+id/fav_drinks"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/gray">
-                </TextView>
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/fav_drink_tea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_drink_coffee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/fav_drink_chocolate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </ImageView>
+                </LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
