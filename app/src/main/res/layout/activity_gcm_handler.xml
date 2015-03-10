@@ -84,27 +84,37 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <TextView
                     android:text="Budget Score:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="16dp"
                     android:textSize="16dp"
                     android:textColor="@color/red">
                 </TextView>
-                <TextView
-                    android:id="@+id/budget_score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/gray">
-                </TextView>
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                    <View
+                        android:id="@+id/budget_range"
+                        android:layout_width="fill_parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/score_range">
+                    </View>
+                    <ImageView
+                        android:id="@+id/budget_target"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:background="@drawable/target">
+                    </ImageView>
+                </FrameLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

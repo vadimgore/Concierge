@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +19,10 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private LinearLayout mCustomerAnalyticsLayout;
     private TextView mProfileSharingStatus;
     private TextView mStyleScore;
-    private TextView mBudgetScore;
+
+    private View mBudgetRange;
+    private ImageView mBudgetTarget;
+
     private TextView mProdRec;
 
     private ImageView mFavSportFootball;
@@ -30,6 +34,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private ImageView mFavDrinkCoffee;
     private ImageView mFavDrinkChocolate;
 
+    private int mBudgetScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +45,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
         mCustomerAnalyticsLayout = (LinearLayout) findViewById(R.id.customer_analytics_layout);
         mProfileSharingStatus = (TextView) findViewById(R.id.customer_profile_sharing_status);
         mStyleScore = (TextView) findViewById(R.id.style_score);
-        mBudgetScore = (TextView) findViewById(R.id.budget_score);
+        mBudgetRange = (View) findViewById(R.id.budget_range);
+        mBudgetTarget = (ImageView) findViewById(R.id.budget_target);
         mProdRec = (TextView) findViewById(R.id.prod_rec);
 
         ImageView mFavSportFootball = (ImageView) findViewById(R.id.fav_sport_football);
@@ -64,7 +71,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
                     access_time + " minutes");
             mCustomerAnalyticsLayout.setVisibility(View.VISIBLE);
             mStyleScore.setText(style_score);
-            mBudgetScore.setText(budget_score);
+            mBudgetScore = Integer.parseInt(budget_score);
 
             if (fav_sports.contains("Football")) {
                 mFavSportFootball.setImageResource(R.drawable.football);
@@ -105,6 +112,19 @@ public class GcmHandlerActivity extends ActionBarActivity {
             mProfileSharingStatus.setText("Access to Style Analytics is not allowed");
             mCustomerAnalyticsLayout.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        // TODO Auto-generated method stub
+        super.onWindowFocusChanged(hasFocus);
+
+        //mBudgetTarget.setLeft();
+        //mBudgetTarget.setPaddingRelative(50, 0, 0, 0);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mBudgetTarget.getLayoutParams());
+        params.leftMargin = mBudgetScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/4;
+        mBudgetTarget.setLayoutParams(params);
+        mBudgetTarget.setVisibility(View.VISIBLE);
     }
 
     @Override
