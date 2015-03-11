@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,26 +15,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GcmHandlerActivity extends ActionBarActivity {
+
+    final static String TAG = "GcmHandlerActivity";
 
     private LinearLayout mCustomerAnalyticsLayout;
     private TextView mProfileSharingStatus;
-    private TextView mStyleScore;
 
+    private View mStyleRange;
+    private ImageView mStyleTarget;
     private View mBudgetRange;
     private ImageView mBudgetTarget;
 
-    private TextView mProdRec;
+    private ImageView mProdRec;
 
-    private ImageView mFavSportFootball;
-    private ImageView mFavSportBasketball;
-    private ImageView mFavSportGolf;
-    private ImageView mFavSportFormula1;
-    private ImageView mFavSportWatersports;
+    private ImageView mFavActivityFootball;
+    private ImageView mFavActivityBasketball;
+    private ImageView mFavActivityGolf;
+    private ImageView mFavActivityFormula1;
+    private ImageView mFavActivityDiving;
     private ImageView mFavDrinkTea;
     private ImageView mFavDrinkCoffee;
     private ImageView mFavDrinkChocolate;
 
+    private ArrayList<Timepiece> mProducts;
+    private int mStyleScore;
     private int mBudgetScore;
 
     @Override
@@ -42,26 +51,29 @@ public class GcmHandlerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_gcm_handler);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setProducts();
+
         mCustomerAnalyticsLayout = (LinearLayout) findViewById(R.id.customer_analytics_layout);
         mProfileSharingStatus = (TextView) findViewById(R.id.customer_profile_sharing_status);
-        mStyleScore = (TextView) findViewById(R.id.style_score);
-        mBudgetRange = (View) findViewById(R.id.budget_range);
+        mStyleRange = findViewById(R.id.style_range);
+        mStyleTarget = (ImageView) findViewById(R.id.style_target);
+        mBudgetRange = findViewById(R.id.budget_range);
         mBudgetTarget = (ImageView) findViewById(R.id.budget_target);
-        mProdRec = (TextView) findViewById(R.id.prod_rec);
+        mProdRec = (ImageView) findViewById(R.id.prod_rec);
 
-        ImageView mFavSportFootball = (ImageView) findViewById(R.id.fav_sport_football);
-        ImageView mFavSportBasketball = (ImageView) findViewById(R.id.fav_sport_basketball);
-        ImageView mFavSportGolf = (ImageView) findViewById(R.id.fav_sport_golf);
-        ImageView mFavSportFormula1 = (ImageView) findViewById(R.id.fav_sport_formula1);
-        ImageView mFavSportWatersports = (ImageView) findViewById(R.id.fav_sport_watersports);
+        mFavActivityFootball = (ImageView) findViewById(R.id.fav_activity_football);
+        mFavActivityBasketball = (ImageView) findViewById(R.id.fav_activity_basketball);
+        mFavActivityGolf = (ImageView) findViewById(R.id.fav_activity_golf);
+        mFavActivityFormula1 = (ImageView) findViewById(R.id.fav_activity_formula1);
+        mFavActivityDiving = (ImageView) findViewById(R.id.fav_activity_diving);
 
-        ImageView mFavDrinkTea = (ImageView) findViewById(R.id.fav_drink_tea);
-        ImageView mFavDrinkCoffee = (ImageView) findViewById(R.id.fav_drink_coffee);
-        ImageView mFavDrinkChocolate = (ImageView) findViewById(R.id.fav_drink_chocolate);
+        mFavDrinkTea = (ImageView) findViewById(R.id.fav_drink_tea);
+        mFavDrinkCoffee = (ImageView) findViewById(R.id.fav_drink_coffee);
+        mFavDrinkChocolate = (ImageView) findViewById(R.id.fav_drink_chocolate);
 
         String style_score = getIntent().getExtras().getString("style_score");
         String budget_score = getIntent().getExtras().getString("budget_score");
-        String fav_sports = getIntent().getExtras().getString("fav_sports");
+        String fav_activities = getIntent().getExtras().getString("fav_activities");
         String fav_drinks = getIntent().getExtras().getString("fav_drinks");
         String prod_rec = getIntent().getExtras().getString("prod_rec");
         String access_time = getIntent().getExtras().getString("access_time");
@@ -70,27 +82,28 @@ public class GcmHandlerActivity extends ActionBarActivity {
             mProfileSharingStatus.setText("Access to Style Analytics is allowed for " +
                     access_time + " minutes");
             mCustomerAnalyticsLayout.setVisibility(View.VISIBLE);
-            mStyleScore.setText(style_score);
+
+            mStyleScore = Integer.parseInt(style_score);
             mBudgetScore = Integer.parseInt(budget_score);
 
-            if (fav_sports.contains("Football")) {
-                mFavSportFootball.setImageResource(R.drawable.football);
+            if (fav_activities.contains("Football")) {
+                mFavActivityFootball.setImageResource(R.drawable.football);
             }
 
-            if (fav_sports.contains("Basketball")) {
-                mFavSportBasketball.setImageResource(R.drawable.basketball);
+            if (fav_activities.contains("Basketball")) {
+                mFavActivityBasketball.setImageResource(R.drawable.basketball);
             }
 
-            if (fav_sports.contains("Golf")) {
-                mFavSportGolf.setImageResource(R.drawable.golf);
+            if (fav_activities.contains("Golf")) {
+                mFavActivityGolf.setImageResource(R.drawable.golf);
             }
 
-            if (fav_sports.contains("Formula")) {
-                mFavSportFormula1.setImageResource(R.drawable.formula1);
+            if (fav_activities.contains("Formula")) {
+                mFavActivityFormula1.setImageResource(R.drawable.formula1);
             }
 
-            if (fav_sports.contains("Watersports")) {
-                mFavSportWatersports.setImageResource(R.drawable.watersports);
+            if (fav_activities.contains("Diving")) {
+                mFavActivityDiving.setImageResource(R.drawable.diving);
             }
 
             if (fav_drinks.contains("Tea")) {
@@ -105,7 +118,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
                 mFavDrinkChocolate.setImageResource(R.drawable.chocolate);
             }
 
-            mProdRec.setText(prod_rec);
+            findMatchingProduct(prod_rec, fav_activities, mBudgetScore);
+
             int access_time_millis = Integer.parseInt(access_time) * 60000;
             finishIn(this, access_time_millis);
         } else {
@@ -119,11 +133,21 @@ public class GcmHandlerActivity extends ActionBarActivity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
-        //mBudgetTarget.setLeft();
-        //mBudgetTarget.setPaddingRelative(50, 0, 0, 0);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mBudgetTarget.getLayoutParams());
-        params.leftMargin = mBudgetScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/4;
-        mBudgetTarget.setLayoutParams(params);
+        final int MAX_STYLE_SCORE = 4;
+        final int MAX_BUDGET_SCORE = 20;
+
+        FrameLayout.LayoutParams styleParams =
+                new FrameLayout.LayoutParams(mStyleTarget.getLayoutParams());
+        styleParams.leftMargin =
+                mStyleScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/MAX_BUDGET_SCORE;
+        mStyleTarget.setLayoutParams(styleParams);
+        mStyleTarget.setVisibility(View.VISIBLE);
+
+        FrameLayout.LayoutParams budgetParams =
+                new FrameLayout.LayoutParams(mBudgetTarget.getLayoutParams());
+        budgetParams.leftMargin =
+                mBudgetScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/MAX_STYLE_SCORE;
+        mBudgetTarget.setLayoutParams(budgetParams);
         mBudgetTarget.setVisibility(View.VISIBLE);
     }
 
@@ -153,6 +177,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
         Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
+                if (getCallingActivity() == null) return;
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("CUSTOMER PROFILE ALERT")
                         .setMessage("Access expired")
@@ -166,5 +192,99 @@ public class GcmHandlerActivity extends ActionBarActivity {
         };
 
         handler.postDelayed(r, time);
+    }
+
+    private void setProducts() {
+        mProducts = new ArrayList<>();
+
+        // Carrera calibre 36 flyback chronograph with leather strap (Football)
+        mProducts.add(new Timepiece(Timepiece.Collection.Football, Timepiece.Type.CHRONOGRAPH,
+                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
+                R.drawable.carrera_calibre_36_flyback_chronograph_leather));
+
+        // Carrera calibre 36 flyback chronograph with steel bracelet (Football)
+        mProducts.add(new Timepiece(Timepiece.Collection.Football, Timepiece.Type.CHRONOGRAPH,
+                Timepiece.Shape.ROUND, Timepiece.Strap.Steel, Timepiece.PriceRange.MEDIUM,
+                R.drawable.carrera_calibre_36_flyback_chronograph_steel));
+
+        // Aquaracer quartz with steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.Diving, Timepiece.Type.ANALOGWATCH,
+                Timepiece.Shape.ROUND, Timepiece.Strap.Steel, Timepiece.PriceRange.LOW,
+                R.drawable.aquaracer_quartz_steel));
+
+        // Formula 1 chronograph leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.Formula_1, Timepiece.Type.CHRONOGRAPH,
+                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
+                R.drawable.formula1_chronograph_leather));
+
+        // Carrera heritage leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.ANALOGWATCH,
+                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
+                R.drawable.carrera_heritage_leather));
+
+        // Monaco chronograph square shape leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.CHRONOGRAPH,
+                Timepiece.Shape.SQUARE, Timepiece.Strap.Leather, Timepiece.PriceRange.HIGH,
+                R.drawable.monaco_chronograph_leather));
+
+        // Monaco chronograph square shape steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.CHRONOGRAPH,
+                Timepiece.Shape.SQUARE, Timepiece.Strap.Steel, Timepiece.PriceRange.HIGH,
+                R.drawable.monaco_chronograph_steel));
+
+        // Monaco ana;og square shape leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.ANALOGWATCH,
+                Timepiece.Shape.SQUARE, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
+                R.drawable.monaco_analog_leather));
+
+    }
+
+    private void findMatchingProduct(String prodRec, String favActivities, int budgetScore) {
+
+        // This is ugly, but whatever....
+
+        ArrayList<String> collection = new ArrayList<>();
+        if (!favActivities.equals(""))
+            collection.addAll(Arrays.asList(favActivities.split("\\s*,\\s*")));
+        else
+            collection.add("None");
+
+        Timepiece.PriceRange price;
+        Timepiece.Shape shape;
+        Timepiece.Type type;
+        Timepiece.Strap strap;
+
+        if (budgetScore == Timepiece.PriceRange.LOW.ordinal())
+            price = Timepiece.PriceRange.LOW;
+        else if (budgetScore < Timepiece.PriceRange.HIGH.ordinal())
+            price = Timepiece.PriceRange.MEDIUM;
+        else
+            price = Timepiece.PriceRange.HIGH;
+
+        if (prodRec.contains("ROUND"))
+            shape = Timepiece.Shape.ROUND;
+        else
+            shape = Timepiece.Shape.SQUARE;
+
+        if (prodRec.contains("CHRONOGRAPH"))
+            type = Timepiece.Type.CHRONOGRAPH;
+        else
+            type = Timepiece.Type.ANALOGWATCH;
+
+        if (prodRec.contains("Leather"))
+            strap = Timepiece.Strap.Leather;
+        else
+            strap = Timepiece.Strap.Steel;
+
+        for (String s : collection) {
+            Timepiece watch = new Timepiece(Timepiece.Collection.valueOf(s), type, shape, strap, price, 0);
+            for (Timepiece t : mProducts) {
+                if (t.match(watch)) {
+                    Log.i(TAG, "found matching product with image id = " + t.getImageId());
+                    mProdRec.setImageResource(t.getImageId());
+                    return;
+                }
+            }
+        }
     }
 }
