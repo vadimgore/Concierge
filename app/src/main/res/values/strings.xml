@@ -9,6 +9,9 @@
     <string name="action_cloud_settings">Cloud Settings</string>
     <string name="title_activity_concierge_profile">Concierge Profile</string>
 
+    <string name="add_note">Add note</string>
+    <string name="upload_note">Upload note</string>
+
     <string name="name_hint">Enter your name</string>
     <string name="id_hint">Enter your employee ID</string>
     <string name="title_hint">Enter your job title</string>
@@ -26,5 +29,8 @@
     <string name="api">api</string>
     <string name="ip_address_hint">Enter iFashion IP address</string>
     <string name="port_hint">Enter iFashion port</string>
+    <string name="title_activity_write_consumer_note">Post your notes</string>
+
+    <string name="hello_world">Hello world!</string>
 
     </resources>

@@ -273,13 +273,13 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         HttpPoster poster = new HttpPoster(getApplicationContext());
         poster.execute(
                 miFashionIP + ":" + miFashionPort + miFashionAPI,
-                mName.getText().toString(),
-                mID.getText().toString(),
-                mTitle.getText().toString(),
-                mSpecialty.getText().toString(),
-                languages.toString(),
-                encodeBitmap( ((BitmapDrawable)mPhoto.getDrawable()).getBitmap()),
-                mGcmRegid
+                "name", mName.getText().toString(),
+                "id", mID.getText().toString(),
+                "title", mTitle.getText().toString(),
+                "specialty", mSpecialty.getText().toString(),
+                "languages", languages.toString(),
+                "photo", encodeBitmap( ((BitmapDrawable)mPhoto.getDrawable()).getBitmap()),
+                "gcm_regid", mGcmRegid
         );
     }
 

@@ -225,6 +225,35 @@
                     android:layout_gravity="center_horizontal">
                 </ImageView>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:text="CUSTOMER NOTES"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="30dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/red">
+                </View>
+
+                <TextView
+                    android:id="@+id/consumer_notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16dp"
+                    android:textColor="@color/red">
+                </TextView>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

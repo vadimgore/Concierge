@@ -42,6 +42,11 @@ class HttpPoster extends AsyncTask<String, String, String> {
         HttpResponse response;
         try {
             // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<>((params.length-1)/2);
+            for (int i = 1; i < params.length; i+=2) {
+                nameValuePairs.add(new BasicNameValuePair(params[i], params[i+1]));
+            }
+/*
             List<NameValuePair> nameValuePairs = new ArrayList<>();
             nameValuePairs.add(new BasicNameValuePair("name", params[1]));
             nameValuePairs.add(new BasicNameValuePair("id", params[2]));
@@ -50,7 +55,7 @@ class HttpPoster extends AsyncTask<String, String, String> {
             nameValuePairs.add(new BasicNameValuePair("languages", params[5]));
             nameValuePairs.add(new BasicNameValuePair("photo", params[6]));
             nameValuePairs.add(new BasicNameValuePair("gcm_regid", params[7]));
-
+*/
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
             // Execute HTTP Post Request
             response = httpclient.execute(httppost);

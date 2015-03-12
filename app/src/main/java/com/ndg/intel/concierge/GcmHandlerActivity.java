@@ -3,8 +3,11 @@ package com.ndg.intel.concierge;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,12 +18,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 public class GcmHandlerActivity extends ActionBarActivity {
 
     final static String TAG = "GcmHandlerActivity";
+
+    private static final String IFASHION_IP_ADDRESS = "http://52.10.19.66";
+    private static final String IFASHION_PORT = "8080";
+    private static final String IFASHION_GETNOTE_API = "/consumer_notes";
+
+    private SharedPreferences mSharedPref;
 
     private LinearLayout mCustomerAnalyticsLayout;
     private TextView mProfileSharingStatus;
@@ -44,12 +58,15 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private ArrayList<Timepiece> mProducts;
     private int mStyleScore;
     private int mBudgetScore;
+    private TextView mConsumerNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gcm_handler);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mSharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         setProducts();
 
@@ -60,6 +77,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
         mBudgetRange = findViewById(R.id.budget_range);
         mBudgetTarget = (ImageView) findViewById(R.id.budget_target);
         mProdRec = (ImageView) findViewById(R.id.prod_rec);
+        mConsumerNotes = (TextView) findViewById(R.id.consumer_notes);
 
         mFavActivityFootball = (ImageView) findViewById(R.id.fav_activity_football);
         mFavActivityBasketball = (ImageView) findViewById(R.id.fav_activity_basketball);
@@ -120,6 +138,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
 
             findMatchingProduct(prod_rec, fav_activities, mBudgetScore);
 
+            postConsumerNotes();
+
             int access_time_millis = Integer.parseInt(access_time) * 60000;
             finishIn(this, access_time_millis);
         } else {
@@ -166,7 +186,11 @@ public class GcmHandlerActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.add_note) {
+            Intent writeConsumerNote = new Intent(this, WriteConsumerNote.class);
+            writeConsumerNote.putExtra("consumer_id", getIntent().getStringExtra("consumer_id"));
+            writeConsumerNote.putExtra("concierge_id", mSharedPref.getString("id", ""));
+            startActivity(writeConsumerNote);
             return true;
         }
 
@@ -285,6 +309,47 @@ public class GcmHandlerActivity extends ActionBarActivity {
                     return;
                 }
             }
+        }
+    }
+
+    private void postConsumerNotes() {
+
+        String httpURL = IFASHION_IP_ADDRESS + ":" + IFASHION_PORT + IFASHION_GETNOTE_API;
+        String consumer_id = getIntent().getStringExtra("consumer_id");
+        String httpResponse = "";
+        try {
+            // Get full Concierge profile from iFashion
+            httpResponse = new HttpGetter().execute(httpURL, "consumer_id=" + consumer_id).get();
+
+        } catch (InterruptedException e) {
+            // Handle exception
+            Log.i(TAG, "InterruptedException:" + e.getMessage());
+        } catch (ExecutionException e) {
+            // Handle exception
+            Log.i(TAG, "ExecutionException:" + e.getMessage());
+        }
+
+        if (!httpResponse.equals("")) {
+
+            String notes = "";
+            try {
+
+                JSONObject jsonResponse = new JSONObject(httpResponse);
+                JSONArray jsonNotes = new JSONArray(jsonResponse.get("notes").toString());
+
+                int numNotes = jsonNotes.length();
+                for (int i = 0; i < numNotes; i++) {
+                    String date = jsonNotes.getJSONObject(i).getString("date");
+                    String text = jsonNotes.getJSONObject(i).getString("text");
+                    if (!date.equals("") && !text.equals(""))
+                        notes += (date + ": " + text);
+                }
+
+            } catch (JSONException e) {
+
+            }
+
+            mConsumerNotes.setText(notes);
         }
     }
 }

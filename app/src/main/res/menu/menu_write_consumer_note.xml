@@ -1,10 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ndg.intel.concierge.GcmHandlerActivity">
+    tools:context="com.ndg.intel.concierge.WriteConsumerNote">
 
-    <item android:id="@+id/add_note"
-        android:icon="@drawable/save_profile"
-        android:title="@string/add_note"
+    <item android:id="@+id/upload_note"
+        android:icon="@drawable/cloud_upload"
+        android:title="@string/upload_note"
         app:showAsAction="always" />
+
 </menu>

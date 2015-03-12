@@ -63,6 +63,12 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".WriteConsumerNote"
+            android:label="@string/title_activity_write_consumer_note"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,10 +20,20 @@ class HttpGetter extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        // TODO Auto-generated method stub
-        StringBuilder builder = new StringBuilder();
+        StringBuilder result = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(params[0]);
+
+        // Build URL string
+        StringBuilder urlString = new StringBuilder();
+        urlString.append(params[0]);
+        for (int i=1; i<params.length; i++) {
+            if (i==1) urlString.append("?");
+            else urlString.append("&");
+
+            urlString.append(params[i]);
+        }
+
+        HttpGet httpGet = new HttpGet(urlString.toString());
 
         try {
             HttpResponse response = client.execute(httpGet);
@@ -35,19 +45,22 @@ class HttpGetter extends AsyncTask<String, String, String> {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(content));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    builder.append(line);
+                    result.append(line);
                 }
-                Log.i("Getter", "Your data: " + builder.toString()); //response data
+                Log.i("Getter", "Your data: " + result.toString()); //response data
             } else {
                 Log.e("Getter", "Failed with error: " + statusLine.getReasonPhrase());
+                result.append(statusLine.getReasonPhrase());
             }
         } catch (ClientProtocolException e) {
+            result.append(e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
+            result.append(e.getMessage());
             e.printStackTrace();
         }
 
-        return builder.toString();
+        return result.toString();
     }
 
     protected void onPostExecute(String result) {

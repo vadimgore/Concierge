@@ -70,6 +70,7 @@ public class GcmIntentService extends IntentService {
         //mIntent.setAction("Concierge.showCustomerProfile");
 
         // EXTRACT Customer Profile from Bundle
+        String consumer_id = bundle.getString("consumer_id");
         String style_score = bundle.getString("style_score");
         String budget_score = bundle.getString("budget_score");
         String fav_activities =  bundle.getString("fav_activities");
@@ -77,6 +78,7 @@ public class GcmIntentService extends IntentService {
         String prod_rec = bundle.getString("prod_rec");
         String access_time = bundle.getString("access_time");
 
+        mIntent.putExtra("consumer_id", consumer_id);
         mIntent.putExtra("style_score", style_score);
         mIntent.putExtra("budget_score", budget_score);
         mIntent.putExtra("fav_activities", fav_activities);
