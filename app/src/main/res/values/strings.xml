@@ -4,13 +4,14 @@
     <string name="app_name">Concierge</string>
     <string name="action_settings">Settings</string>
     <string name="action_profile">Profile</string>
-    <string name="save_profile">Save</string>
-    <string name="upload_profile">Upload</string>
+    <string name="action_save_profile">Save</string>
+    <string name="action_upload_profile">Upload</string>
     <string name="action_cloud_settings">Cloud Settings</string>
-    <string name="title_activity_concierge_profile">Concierge Profile</string>
+    <string name="action_add_note">Add note</string>
+    <string name="action_upload_note">Upload note</string>
+    <string name="action_save_cloud_settings">Save cloud settings</string>
 
-    <string name="add_note">Add note</string>
-    <string name="upload_note">Upload note</string>
+    <string name="title_activity_concierge_profile">Concierge Profile</string>
 
     <string name="name_hint">Enter your name</string>
     <string name="id_hint">Enter your employee ID</string>
@@ -26,11 +27,21 @@
     <string name="gcm_regid">gcm_regid</string>
     <string name="ip_address">ip_address</string>
     <string name="port">port</string>
-    <string name="api">api</string>
-    <string name="ip_address_hint">Enter iFashion IP address</string>
-    <string name="port_hint">Enter iFashion port</string>
+    <string name="ip_address_hint">Enter backend IP address</string>
+    <string name="port_hint">Enter backend port</string>
+
+    <string name="concierge_api">concierge_api</string>
+    <string name="profile_api">profile_api</string>
+    <string name="consumer_note_api">consumer_note_api</string>
+
     <string name="title_activity_write_consumer_note">Post your notes</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string-array name="location_array">
+        <item>Boston</item>
+        <item>Chicago</item>
+        <item>Los Angeles</item>
+        <item>New York</item>
+        <item>San Francisco</item>
+    </string-array>
 
     </resources>

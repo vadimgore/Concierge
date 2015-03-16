@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,9 +30,11 @@ public class MainActivity extends ActionBarActivity {
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    private static final String IFASHION_IP_ADDRESS = "http://52.10.19.66";
-    private static final String IFASHION_PORT = "8080";
-    private static final String IFASHION_REST_API = "/concierge";
+    private static final String DEFAULT_BACKEND_IP_ADDRESS = "http://52.10.19.66";
+    private static final String DEFAULT_BACKEND_PORT = "8080";
+    private static final String DEFAULT_BACKEND_CONCIERGE_API = "/concierge";
+    private static final String DEFAULT_BACKEND_PROFILE_API = "/profile";
+    private static final String DEFAULT_BACKEND_CONSUMER_NOTE_API = "/consumer_note";
 
     // This is the project number you got from the Google API Console, for GCM services
     private final String SENDER_ID = "1032714926342";
@@ -43,6 +46,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setBackendDefaults();
 
         // Check device for Play Services APK.
         if (checkPlayServices()) {
@@ -85,16 +90,11 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_profile:
                 mConciergeProfile = new Intent(this, ConciergeProfileActivity.class);
                 mConciergeProfile.putExtra("@string/gcm_regid", mGcmRegid);
-                mConciergeProfile.putExtra("@string/ip_address", IFASHION_IP_ADDRESS);
-                mConciergeProfile.putExtra("@string/port", IFASHION_PORT);
-                mConciergeProfile.putExtra("@string/api", IFASHION_REST_API);
                 startActivity(mConciergeProfile);
                 return true;
             case R.id.action_cloud_settings:
                 mCloudSettings = new Intent(this, CloudSettingsActivity.class);
                 mCloudSettings.putExtra("@string/gcm_regid", mGcmRegid);
-                mCloudSettings.putExtra("@string/ip_address", IFASHION_IP_ADDRESS);
-                mCloudSettings.putExtra("@string/port", IFASHION_PORT);
                 startActivity(mCloudSettings);
                 return true;
             case R.id.action_settings:
@@ -251,5 +251,32 @@ public class MainActivity extends ActionBarActivity {
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(PROPERTY_APP_VERSION, appVersion);
         editor.commit();
+    }
+
+    private void setBackendDefaults() {
+        Log.i(TAG, "Setting missing backend settings to their defaults");
+
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        if (sharedPref.getString("@string/ip_address", "").equals(""))
+            editor.putString("@string/ip_address", DEFAULT_BACKEND_IP_ADDRESS);
+
+        if (sharedPref.getString("@string/port", "").equals(""))
+            editor.putString("@string/port", DEFAULT_BACKEND_PORT);
+
+        if (sharedPref.getString("@string/concierge_api", "").equals(""))
+            editor.putString("@string/concierge_api", DEFAULT_BACKEND_CONCIERGE_API);
+
+        if (sharedPref.getString("@string/profile_api", "").equals(""))
+            editor.putString("@string/profile_api", DEFAULT_BACKEND_PROFILE_API);
+
+        if (sharedPref.getString("@string/consumer_note_api", "").equals(""))
+            editor.putString("@string/consumer_note_api", DEFAULT_BACKEND_CONSUMER_NOTE_API);
+
+        editor.commit();
+
     }
 }

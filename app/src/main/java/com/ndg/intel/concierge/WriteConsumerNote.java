@@ -1,13 +1,12 @@
 package com.ndg.intel.concierge;
 
-import android.graphics.drawable.BitmapDrawable;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,11 +14,10 @@ import java.util.Calendar;
 
 public class WriteConsumerNote extends ActionBarActivity {
 
-    private static final String IFASHION_IP_ADDRESS = "http://52.10.19.66";
-    private static final String IFASHION_PORT = "8080";
-    private static final String IFASHION_REST_API = "/consumer_note";
-
     private EditText mNote;
+    private String mBackendIP;
+    private String mBackendPort;
+    private String mConsumerNoteAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +26,21 @@ public class WriteConsumerNote extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mNote = (EditText) findViewById(R.id.edit_note);
+
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String ip_address = sharedPref.getString("@string/ip_address", "");
+        if (!ip_address.equals(""))
+            mBackendIP = ip_address;
+
+        String port = sharedPref.getString("@string/port", "");
+        if (!port.equals(""))
+            mBackendPort = port;
+
+        String consumer_note_api = sharedPref.getString("@string/consumer_note_api", "");
+        if (!consumer_note_api.equals(""))
+            mConsumerNoteAPI = consumer_note_api;
     }
 
 
@@ -66,7 +79,7 @@ public class WriteConsumerNote extends ActionBarActivity {
 
         HttpPoster poster = new HttpPoster(getApplicationContext());
         poster.execute(
-                IFASHION_IP_ADDRESS + ":" + IFASHION_PORT + IFASHION_REST_API,
+                mBackendIP + ":" + mBackendPort + mConsumerNoteAPI,
                 "consumer_id", consumer_id,
                 "concierge_id", concierge_id,
                 "date", date,

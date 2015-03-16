@@ -5,7 +5,7 @@
 
     <item android:id="@+id/upload_note"
         android:icon="@drawable/cloud_upload"
-        android:title="@string/upload_note"
+        android:title="@string/action_upload_note"
         app:showAsAction="always" />
 
 </menu>

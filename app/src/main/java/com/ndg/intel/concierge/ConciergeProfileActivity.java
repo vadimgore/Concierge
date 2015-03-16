@@ -16,9 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -43,6 +45,7 @@ public class ConciergeProfileActivity extends ActionBarActivity {
     private EditText mID;
     private EditText mTitle;
     private EditText mSpecialty;
+    private Spinner mLocation;
 
     private CheckBox mEnglish;
     private CheckBox mFrench;
@@ -53,9 +56,9 @@ public class ConciergeProfileActivity extends ActionBarActivity {
     private ArrayList<String> mLanguages;
 
     private String mGcmRegid;
-    private String miFashionIP;
-    private String miFashionPort;
-    private String miFashionAPI;
+    private String mBackendIP;
+    private String mBackendPort;
+    private String mConciergeAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +67,19 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGcmRegid = getIntent().getExtras().getString("@string/gcm_regid");
-        miFashionIP = getIntent().getExtras().getString("@string/ip_address");
-        miFashionPort = getIntent().getExtras().getString("@string/port");
-        miFashionAPI = getIntent().getExtras().getString("@string/api");
 
         mName = (EditText) findViewById(R.id.name);
         mID = (EditText) findViewById(R.id.id);
         mTitle = (EditText) findViewById(R.id.title);
         mSpecialty = (EditText) findViewById(R.id.specialty);
+        mLocation = (Spinner) findViewById(R.id.location_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.location_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mLocation.setAdapter(adapter);
 
         mEnglish = (CheckBox) findViewById(R.id.checkbox_english);
         mFrench = (CheckBox) findViewById(R.id.checkbox_french);
@@ -174,6 +182,7 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         editor.putString("id", mID.getText().toString());
         editor.putString("title", mTitle.getText().toString());
         editor.putString("specialty", mSpecialty.getText().toString());
+        editor.putInt("location", mLocation.getSelectedItemPosition());
 
         // Languages
         for (String s : mLanguages) {
@@ -194,17 +203,19 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] b = baos.toByteArray();
-        String encodedBitmap = Base64.encodeToString(b, Base64.DEFAULT);
-        return encodedBitmap;
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
     private Bitmap decodeBitmap(String encodedBitmap) {
         byte[] b = Base64.decode(encodedBitmap, Base64.DEFAULT);
-        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-        return decodedBitmap;
+        return BitmapFactory.decodeByteArray(b, 0, b.length);
     }
 
     public void restoreState() {
+
+        mBackendIP = mSharedPref.getString("@string/ip_address", "");
+        mBackendPort = mSharedPref.getString("@string/port", "");
+        mConciergeAPI =  mSharedPref.getString("@string/concierge_api", "");
 
         String name = mSharedPref.getString("name", "");
         if( !name.equalsIgnoreCase("") ){
@@ -225,6 +236,12 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         if( !specialty.equalsIgnoreCase("") ){
             mSpecialty.setText(specialty);
         }
+
+        int pos = mSharedPref.getInt("location", -1);
+        if( pos > -1 ){
+            mLocation.setSelection(pos);
+        }
+
 
         for (Language l : Language.values()) {
             String s = mSharedPref.getString(l.name(), "");
@@ -258,8 +275,6 @@ public class ConciergeProfileActivity extends ActionBarActivity {
         }
     }
 
-
-
     public void sendToBackend() {
         StringBuilder languages = new StringBuilder();
         int i = 0;
@@ -272,11 +287,12 @@ public class ConciergeProfileActivity extends ActionBarActivity {
 
         HttpPoster poster = new HttpPoster(getApplicationContext());
         poster.execute(
-                miFashionIP + ":" + miFashionPort + miFashionAPI,
+                mBackendIP + ":" + mBackendPort + mConciergeAPI,
                 "name", mName.getText().toString(),
                 "id", mID.getText().toString(),
                 "title", mTitle.getText().toString(),
                 "specialty", mSpecialty.getText().toString(),
+                "location", mLocation.getSelectedItem().toString(),
                 "languages", languages.toString(),
                 "photo", encodeBitmap( ((BitmapDrawable)mPhoto.getDrawable()).getBitmap()),
                 "gcm_regid", mGcmRegid

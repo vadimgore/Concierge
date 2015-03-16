@@ -34,6 +34,8 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private static final String IFASHION_PORT = "8080";
     private static final String IFASHION_GETNOTE_API = "/consumer_notes";
 
+    static boolean mActivityStopped = false;
+
     private SharedPreferences mSharedPref;
 
     private LinearLayout mCustomerAnalyticsLayout;
@@ -149,6 +151,13 @@ public class GcmHandlerActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+
+        mActivityStopped = true;
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
@@ -201,8 +210,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
         Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
-                if (getCallingActivity() == null) return;
-
+                if (mActivityStopped) return;
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("CUSTOMER PROFILE ALERT")
                         .setMessage("Access expired")
@@ -342,11 +350,11 @@ public class GcmHandlerActivity extends ActionBarActivity {
                     String date = jsonNotes.getJSONObject(i).getString("date");
                     String text = jsonNotes.getJSONObject(i).getString("text");
                     if (!date.equals("") && !text.equals(""))
-                        notes += (date + ": " + text);
+                        notes += (date + ": " + text + "\n\n");
                 }
 
             } catch (JSONException e) {
-
+                Log.i(TAG, "JSONException:" + e.getMessage());
             }
 
             mConsumerNotes.setText(notes);

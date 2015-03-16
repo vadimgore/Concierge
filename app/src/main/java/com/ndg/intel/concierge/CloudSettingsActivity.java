@@ -1,19 +1,22 @@
 package com.ndg.intel.concierge;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class CloudSettingsActivity extends ActionBarActivity {
 
     private TextView mGcmStatus;
     private TextView mGcmRegid;
-    private EditText miFashionIP;
-    private EditText miFashionPort;
+    private EditText mBackendIP;
+    private EditText mBackendPort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +27,8 @@ public class CloudSettingsActivity extends ActionBarActivity {
         String gcm_regid = getIntent().getExtras().getString("@string/gcm_regid");
         mGcmStatus = (TextView) findViewById(R.id.gcm_status);
         mGcmRegid = (TextView) findViewById(R.id.gcm_regid);
-        miFashionIP = (EditText) findViewById(R.id.ip_address);
-        miFashionPort = (EditText) findViewById(R.id.port);
+        mBackendIP = (EditText) findViewById(R.id.ip_address);
+        mBackendPort = (EditText) findViewById(R.id.port);
 
         if (gcm_regid != null && !gcm_regid.equals("")) {
             mGcmStatus.setText("Connected");
@@ -34,13 +37,16 @@ public class CloudSettingsActivity extends ActionBarActivity {
             mGcmStatus.setText("Disconnected");
         }
 
-        String ip_address = getIntent().getExtras().getString("@string/ip_address", "");
-        if (!ip_address.equals(""))
-            miFashionIP.setText(ip_address);
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String port = getIntent().getExtras().getString("@string/port", "");
+        String ip_address = sharedPref.getString("@string/ip_address", "");
+        if (!ip_address.equals(""))
+            mBackendIP.setText(ip_address);
+
+        String port = sharedPref.getString("@string/port", "");
         if (!port.equals(""))
-            miFashionPort.setText(port);
+            mBackendPort.setText(port);
     }
 
     @Override
@@ -58,10 +64,23 @@ public class CloudSettingsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.save_cloud_settings) {
+            saveCloudSettings();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void saveCloudSettings() {
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("@string/ip_address", mBackendIP.getText().toString());
+        editor.putString("@string/port", mBackendPort.getText().toString());
+        editor.commit();
+
+        Toast.makeText(getApplicationContext(), "Cloud Settings saved!", Toast.LENGTH_LONG).show();
     }
 }
