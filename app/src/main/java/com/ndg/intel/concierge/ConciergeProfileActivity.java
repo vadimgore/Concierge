@@ -1,5 +1,6 @@
 package com.ndg.intel.concierge;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
