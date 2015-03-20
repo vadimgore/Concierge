@@ -11,8 +11,8 @@ public class Timepiece {
         ANALOGWATCH
     }
     enum Strap {
-        Steel,
-        Leather
+        STEEL,
+        LEATHER
     }
 
     enum PriceRange {
@@ -22,14 +22,20 @@ public class Timepiece {
     }
 
     enum Collection {
-        None,
-        Football,
-        Basketball,
-        Golf,
-        Formula_1,
-        Diving
+        NONE,
+        CARRERA,
+        AQUARACER,
+        MONACO,
+        FORMULA1,
+        LINK
     }
 
+    enum Gender {
+        MALE,
+        FEMALE
+    }
+
+    private Gender mGender;
     private Shape mShape;
     private Type mType;
     private Strap mStrap;
@@ -37,8 +43,10 @@ public class Timepiece {
     private PriceRange mPrice;
     private Collection mCollection;
 
-    public Timepiece(Collection collection, Type type, Shape shape, Strap strap, PriceRange price, int imageId) {
+    public Timepiece(Collection collection, Gender gender, Type type, Shape shape, Strap strap,
+                     PriceRange price, int imageId) {
         mCollection = collection;
+        mGender = gender;
         mType = type;
         mShape = shape;
         mStrap = strap;
@@ -47,6 +55,7 @@ public class Timepiece {
     }
 
     public Collection getCollection() { return mCollection; }
+    public Gender getGender() { return mGender; }
     public Shape getShape() { return mShape; }
     public Type getType() { return mType; }
     public Strap getStrap() {
@@ -58,15 +67,18 @@ public class Timepiece {
     public boolean match(Timepiece watch) {
 
         // Two products match if
-        // "price range" AND at least two of the following four parameters match: Collection, Shape, Type, Strap
-        if (mPrice.ordinal() > watch.getPrice().ordinal()) return false;
+        // "gender" AND at least three of the following five parameters match:
+        // Collection, Price, Shape, Type, Strap
+        if (mGender != watch.getGender()) return false;
+
         int match = 0;
+        if (mPrice.ordinal() < watch.getPrice().ordinal()) match++;
         if (mCollection == watch.getCollection()) match++;
         if (mType == watch.getType()) match++;
         if (mShape == watch.getShape()) match++;
         if (mStrap == watch.getStrap()) match++;
 
-        return (match>2);
+        return (match > 3);
     }
 
 }

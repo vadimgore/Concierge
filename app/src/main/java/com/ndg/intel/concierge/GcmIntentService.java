@@ -71,6 +71,9 @@ public class GcmIntentService extends IntentService {
 
         // EXTRACT Customer Profile from Bundle
         String consumer_id = bundle.getString("consumer_id");
+        String gender = bundle.getString("gender");
+        String age_group = bundle.getString("age_group");
+        String language = bundle.getString("language");
         String style_score = bundle.getString("style_score");
         String budget_score = bundle.getString("budget_score");
         String fav_activities =  bundle.getString("fav_activities");
@@ -79,6 +82,9 @@ public class GcmIntentService extends IntentService {
         String access_time = bundle.getString("access_time");
 
         mIntent.putExtra("consumer_id", consumer_id);
+        mIntent.putExtra("gender", gender);
+        mIntent.putExtra("language", language);
+        mIntent.putExtra("age_group", age_group);
         mIntent.putExtra("style_score", style_score);
         mIntent.putExtra("budget_score", budget_score);
         mIntent.putExtra("fav_activities", fav_activities);

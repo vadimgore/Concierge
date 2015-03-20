@@ -41,13 +41,14 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private LinearLayout mCustomerAnalyticsLayout;
     private TextView mProfileSharingStatus;
 
-    private View mStyleRange;
     private ImageView mStyleTarget;
-    private View mBudgetRange;
-    private ImageView mBudgetTarget;
 
+    private ImageView mGender;
+    private ImageView mLanguage;
+    private ImageView mBudget;
     private ImageView mProdRec;
 
+    private View mStyleRange;
     private ImageView mFavActivityFootball;
     private ImageView mFavActivityBasketball;
     private ImageView mFavActivityGolf;
@@ -74,10 +75,12 @@ public class GcmHandlerActivity extends ActionBarActivity {
 
         mCustomerAnalyticsLayout = (LinearLayout) findViewById(R.id.customer_analytics_layout);
         mProfileSharingStatus = (TextView) findViewById(R.id.customer_profile_sharing_status);
-        mStyleRange = findViewById(R.id.style_range);
+
+        mGender = (ImageView) findViewById(R.id.gender);
+        mLanguage = (ImageView) findViewById(R.id.language);
+        mBudget = (ImageView) findViewById(R.id.budget);
+        mStyleRange  = (View) findViewById(R.id.style_range);
         mStyleTarget = (ImageView) findViewById(R.id.style_target);
-        mBudgetRange = findViewById(R.id.budget_range);
-        mBudgetTarget = (ImageView) findViewById(R.id.budget_target);
         mProdRec = (ImageView) findViewById(R.id.prod_rec);
         mConsumerNotes = (TextView) findViewById(R.id.consumer_notes);
 
@@ -91,6 +94,9 @@ public class GcmHandlerActivity extends ActionBarActivity {
         mFavDrinkCoffee = (ImageView) findViewById(R.id.fav_drink_coffee);
         mFavDrinkChocolate = (ImageView) findViewById(R.id.fav_drink_chocolate);
 
+        String gender = getIntent().getExtras().getString("gender");
+        String language = getIntent().getExtras().getString("language");
+        Integer age_group = Integer.parseInt(getIntent().getExtras().getString("age_group"));
         String style_score = getIntent().getExtras().getString("style_score");
         String budget_score = getIntent().getExtras().getString("budget_score");
         String fav_activities = getIntent().getExtras().getString("fav_activities");
@@ -103,8 +109,42 @@ public class GcmHandlerActivity extends ActionBarActivity {
                     access_time + " minutes");
             mCustomerAnalyticsLayout.setVisibility(View.VISIBLE);
 
-            mStyleScore = Integer.parseInt(style_score);
+            // Set consumer's demographics
+            if (gender.equals("male")) {
+                if (age_group < 2)
+                    mGender.setImageResource(R.drawable.young_male);
+                else if (age_group < 3)
+                    mGender.setImageResource(R.drawable.middleage_male);
+                else if (age_group < 5)
+                    mGender.setImageResource(R.drawable.senior_male);
+            } else if (gender.equals("female")) {
+                if (age_group < 2)
+                    mGender.setImageResource(R.drawable.young_female);
+                else if (age_group < 3)
+                    mGender.setImageResource(R.drawable.middleage_female);
+                else if (age_group < 5)
+                    mGender.setImageResource(R.drawable.senior_female);
+            }
+
             mBudgetScore = Integer.parseInt(budget_score);
+            switch (mBudgetScore) {
+                case 0:
+                case 1:
+                    mBudget.setImageResource(R.drawable.small_budget);
+                    break;
+                case 2:
+                case 3:
+                    mBudget.setImageResource(R.drawable.medium_budget);
+                    break;
+                case 4:
+                    mBudget.setImageResource(R.drawable.large_budget);
+                    break;
+            }
+
+            int langResId = getResources().getIdentifier(language.toLowerCase(), "drawable", getPackageName());
+            mLanguage.setImageResource(langResId);
+
+            mStyleScore = Integer.parseInt(style_score);
 
             if (fav_activities.contains("Football")) {
                 mFavActivityFootball.setImageResource(R.drawable.football);
@@ -138,7 +178,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
                 mFavDrinkChocolate.setImageResource(R.drawable.chocolate);
             }
 
-            findMatchingProduct(prod_rec, fav_activities, mBudgetScore);
+            findMatchingProduct(prod_rec, gender, "CARRERA, AQUARACER, FORMULA1, MONACO, LINK", mBudgetScore);
 
             postConsumerNotes();
 
@@ -162,22 +202,14 @@ public class GcmHandlerActivity extends ActionBarActivity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
-        final int MAX_STYLE_SCORE = 4;
-        final int MAX_BUDGET_SCORE = 20;
+        final int MAX_STYLE_SCORE = 20;
 
         FrameLayout.LayoutParams styleParams =
                 new FrameLayout.LayoutParams(mStyleTarget.getLayoutParams());
         styleParams.leftMargin =
-                mStyleScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/MAX_BUDGET_SCORE;
+                mStyleScore*(mStyleRange.getWidth() - mStyleTarget.getWidth())/MAX_STYLE_SCORE;
         mStyleTarget.setLayoutParams(styleParams);
         mStyleTarget.setVisibility(View.VISIBLE);
-
-        FrameLayout.LayoutParams budgetParams =
-                new FrameLayout.LayoutParams(mBudgetTarget.getLayoutParams());
-        budgetParams.leftMargin =
-                mBudgetScore*(mBudgetRange.getWidth() - mBudgetTarget.getWidth())/MAX_STYLE_SCORE;
-        mBudgetTarget.setLayoutParams(budgetParams);
-        mBudgetTarget.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -229,57 +261,81 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private void setProducts() {
         mProducts = new ArrayList<>();
 
-        // Carrera calibre 36 flyback chronograph with leather strap (Football)
-        mProducts.add(new Timepiece(Timepiece.Collection.Football, Timepiece.Type.CHRONOGRAPH,
-                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
-                R.drawable.carrera_calibre_36_flyback_chronograph_leather));
+        // Men watches
 
-        // Carrera calibre 36 flyback chronograph with steel bracelet (Football)
-        mProducts.add(new Timepiece(Timepiece.Collection.Football, Timepiece.Type.CHRONOGRAPH,
-                Timepiece.Shape.ROUND, Timepiece.Strap.Steel, Timepiece.PriceRange.MEDIUM,
-                R.drawable.carrera_calibre_36_flyback_chronograph_steel));
+        // Carrera chronograph with leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.CARRERA, Timepiece.Gender.MALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.ROUND, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.MEDIUM, R.drawable.men_carrera_chronograph_leather));
+
+        // Carrera calibre 36 flyback chronograph with steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.CARRERA, Timepiece.Gender.MALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.ROUND, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.MEDIUM, R.drawable.men_carrera_chronograph_steel));
 
         // Aquaracer quartz with steel bracelet
-        mProducts.add(new Timepiece(Timepiece.Collection.Diving, Timepiece.Type.ANALOGWATCH,
-                Timepiece.Shape.ROUND, Timepiece.Strap.Steel, Timepiece.PriceRange.LOW,
-                R.drawable.aquaracer_quartz_steel));
+        mProducts.add(new Timepiece(Timepiece.Collection.AQUARACER, Timepiece.Gender.MALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.ROUND, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.LOW, R.drawable.men_aquaracer_quartz_steel));
 
         // Formula 1 chronograph leather strap
-        mProducts.add(new Timepiece(Timepiece.Collection.Formula_1, Timepiece.Type.CHRONOGRAPH,
-                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
-                R.drawable.formula1_chronograph_leather));
+        mProducts.add(new Timepiece(Timepiece.Collection.FORMULA1, Timepiece.Gender.MALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.ROUND, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.MEDIUM, R.drawable.men_formula1_chronograph_leather));
 
         // Carrera heritage leather strap
-        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.ANALOGWATCH,
-                Timepiece.Shape.ROUND, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
-                R.drawable.carrera_heritage_leather));
+        mProducts.add(new Timepiece(Timepiece.Collection.NONE, Timepiece.Gender.MALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.ROUND, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.MEDIUM, R.drawable.carrera_heritage_leather));
 
         // Monaco chronograph square shape leather strap
-        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.CHRONOGRAPH,
-                Timepiece.Shape.SQUARE, Timepiece.Strap.Leather, Timepiece.PriceRange.HIGH,
-                R.drawable.monaco_chronograph_leather));
+        mProducts.add(new Timepiece(Timepiece.Collection.MONACO, Timepiece.Gender.MALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.SQUARE, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.HIGH, R.drawable.monaco_chronograph_leather));
 
         // Monaco chronograph square shape steel bracelet
-        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.CHRONOGRAPH,
-                Timepiece.Shape.SQUARE, Timepiece.Strap.Steel, Timepiece.PriceRange.HIGH,
-                R.drawable.monaco_chronograph_steel));
+        mProducts.add(new Timepiece(Timepiece.Collection.MONACO, Timepiece.Gender.MALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.SQUARE, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.HIGH, R.drawable.men_monaco_chronograph_steel));
 
         // Monaco ana;og square shape leather strap
-        mProducts.add(new Timepiece(Timepiece.Collection.None, Timepiece.Type.ANALOGWATCH,
-                Timepiece.Shape.SQUARE, Timepiece.Strap.Leather, Timepiece.PriceRange.MEDIUM,
-                R.drawable.monaco_analog_leather));
+        mProducts.add(new Timepiece(Timepiece.Collection.NONE, Timepiece.Gender.MALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.SQUARE, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.MEDIUM, R.drawable.men_monaco_analog_leather));
+
+        // Women watches
+
+        // Aquaracer quartz with steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.AQUARACER, Timepiece.Gender.FEMALE,
+                Timepiece.Type.CHRONOGRAPH, Timepiece.Shape.ROUND, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.HIGH, R.drawable.women_aquaracer_chronograph_steel));
+
+        // Carrera quartz with steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.CARRERA, Timepiece.Gender.FEMALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.ROUND, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.LOW, R.drawable.women_carrera_quartz_steel));
+
+        // Formula1 quartz with steel bracelet
+        mProducts.add(new Timepiece(Timepiece.Collection.FORMULA1, Timepiece.Gender.FEMALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.ROUND, Timepiece.Strap.STEEL,
+                Timepiece.PriceRange.MEDIUM, R.drawable.women_formula1_quartz_steel));
+
+        // Monaco quartz with leather strap
+        mProducts.add(new Timepiece(Timepiece.Collection.MONACO, Timepiece.Gender.FEMALE,
+                Timepiece.Type.ANALOGWATCH, Timepiece.Shape.SQUARE, Timepiece.Strap.LEATHER,
+                Timepiece.PriceRange.MEDIUM, R.drawable.women_monaco_quartz_leather));
 
     }
 
-    private void findMatchingProduct(String prodRec, String favActivities, int budgetScore) {
+    private void findMatchingProduct(String prodRec, String gender, String interests, int budgetScore) {
 
         // This is ugly, but whatever....
 
-        ArrayList<String> collection = new ArrayList<>();
-        if (!favActivities.equals(""))
-            collection.addAll(Arrays.asList(favActivities.split("\\s*,\\s*")));
+        ArrayList<String> collections = new ArrayList<>();
+        if (!interests.equals(""))
+            collections.addAll(Arrays.asList(interests.split("\\s*,\\s*")));
         else
-            collection.add("None");
+            collections.add("NONE");
 
         Timepiece.PriceRange price;
         Timepiece.Shape shape;
@@ -293,23 +349,24 @@ public class GcmHandlerActivity extends ActionBarActivity {
         else
             price = Timepiece.PriceRange.HIGH;
 
-        if (prodRec.contains("ROUND"))
+        if (prodRec.toLowerCase().contains("round"))
             shape = Timepiece.Shape.ROUND;
         else
             shape = Timepiece.Shape.SQUARE;
 
-        if (prodRec.contains("CHRONOGRAPH"))
+        if (prodRec.toLowerCase().contains("chronograph"))
             type = Timepiece.Type.CHRONOGRAPH;
         else
             type = Timepiece.Type.ANALOGWATCH;
 
-        if (prodRec.contains("Leather"))
-            strap = Timepiece.Strap.Leather;
+        if (prodRec.toLowerCase().contains("leather"))
+            strap = Timepiece.Strap.LEATHER;
         else
-            strap = Timepiece.Strap.Steel;
+            strap = Timepiece.Strap.STEEL;
 
-        for (String s : collection) {
-            Timepiece watch = new Timepiece(Timepiece.Collection.valueOf(s), type, shape, strap, price, 0);
+        for (String s : collections) {
+            Timepiece watch = new Timepiece(Timepiece.Collection.valueOf(s.toUpperCase()),
+                    Timepiece.Gender.valueOf(gender.toUpperCase()), type, shape, strap, price, 0);
             for (Timepiece t : mProducts) {
                 if (t.match(watch)) {
                     Log.i(TAG, "found matching product with image id = " + t.getImageId());

@@ -41,6 +41,54 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:text="DEMOGRAPHICS"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:textColor="@color/red">
+                </TextView>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/red">
+                </View>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp">
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/budget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp">
+                    </ImageView>
+                </LinearLayout>
+            </LinearLayout>
+
             <TextView
                 android:text="ANALYTICS"
                 android:layout_width="match_parent"
@@ -84,40 +132,6 @@
                     </View>
                     <ImageView
                         android:id="@+id/style_target"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:background="@drawable/target">
-                    </ImageView>
-                </FrameLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:text="Budget Range"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textSize="16dp"
-                    android:textColor="@color/red">
-                </TextView>
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-                    <View
-                        android:id="@+id/budget_range"
-                        android:layout_width="fill_parent"
-                        android:layout_marginTop="16dp"
-                        android:layout_height="32dp"
-                        android:background="@drawable/score_range">
-                    </View>
-                    <ImageView
-                        android:id="@+id/budget_target"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
