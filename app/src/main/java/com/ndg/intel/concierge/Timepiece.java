@@ -17,7 +17,9 @@ public class Timepiece {
 
     enum PriceRange {
         LOW,
+        LOW_MEDIUM,
         MEDIUM,
+        MEDIUM_HIGH,
         HIGH
     }
 
@@ -26,8 +28,7 @@ public class Timepiece {
         CARRERA,
         AQUARACER,
         MONACO,
-        FORMULA1,
-        LINK
+        FORMULA1
     }
 
     enum Gender {

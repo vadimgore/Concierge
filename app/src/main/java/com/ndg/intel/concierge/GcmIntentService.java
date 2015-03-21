@@ -76,7 +76,6 @@ public class GcmIntentService extends IntentService {
         String language = bundle.getString("language");
         String style_score = bundle.getString("style_score");
         String budget_score = bundle.getString("budget_score");
-        String fav_activities =  bundle.getString("fav_activities");
         String fav_drinks = bundle.getString("fav_drinks");
         String prod_rec = bundle.getString("prod_rec");
         String access_time = bundle.getString("access_time");
@@ -87,7 +86,6 @@ public class GcmIntentService extends IntentService {
         mIntent.putExtra("age_group", age_group);
         mIntent.putExtra("style_score", style_score);
         mIntent.putExtra("budget_score", budget_score);
-        mIntent.putExtra("fav_activities", fav_activities);
         mIntent.putExtra("fav_drinks", fav_drinks);
         mIntent.putExtra("prod_rec", prod_rec);
         mIntent.putExtra("access_time", access_time);

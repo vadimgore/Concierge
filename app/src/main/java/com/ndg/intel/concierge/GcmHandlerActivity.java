@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 public class GcmHandlerActivity extends ActionBarActivity {
@@ -49,14 +48,9 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private ImageView mProdRec;
 
     private View mStyleRange;
-    private ImageView mFavActivityFootball;
-    private ImageView mFavActivityBasketball;
-    private ImageView mFavActivityGolf;
-    private ImageView mFavActivityFormula1;
-    private ImageView mFavActivityDiving;
-    private ImageView mFavDrinkTea;
-    private ImageView mFavDrinkCoffee;
-    private ImageView mFavDrinkChocolate;
+    private ImageView mFavDrinkBlackTea;
+    private ImageView mFavDrinkGreenTea;
+    private ImageView mFavDrinkEspresso;
 
     private ArrayList<Timepiece> mProducts;
     private int mStyleScore;
@@ -84,22 +78,15 @@ public class GcmHandlerActivity extends ActionBarActivity {
         mProdRec = (ImageView) findViewById(R.id.prod_rec);
         mConsumerNotes = (TextView) findViewById(R.id.consumer_notes);
 
-        mFavActivityFootball = (ImageView) findViewById(R.id.fav_activity_football);
-        mFavActivityBasketball = (ImageView) findViewById(R.id.fav_activity_basketball);
-        mFavActivityGolf = (ImageView) findViewById(R.id.fav_activity_golf);
-        mFavActivityFormula1 = (ImageView) findViewById(R.id.fav_activity_formula1);
-        mFavActivityDiving = (ImageView) findViewById(R.id.fav_activity_diving);
-
-        mFavDrinkTea = (ImageView) findViewById(R.id.fav_drink_tea);
-        mFavDrinkCoffee = (ImageView) findViewById(R.id.fav_drink_coffee);
-        mFavDrinkChocolate = (ImageView) findViewById(R.id.fav_drink_chocolate);
+        mFavDrinkBlackTea = (ImageView) findViewById(R.id.fav_drink_black_tea);
+        mFavDrinkGreenTea = (ImageView) findViewById(R.id.fav_drink_green_tea);
+        mFavDrinkEspresso = (ImageView) findViewById(R.id.fav_drink_espresso);
 
         String gender = getIntent().getExtras().getString("gender");
         String language = getIntent().getExtras().getString("language");
         Integer age_group = Integer.parseInt(getIntent().getExtras().getString("age_group"));
         String style_score = getIntent().getExtras().getString("style_score");
         String budget_score = getIntent().getExtras().getString("budget_score");
-        String fav_activities = getIntent().getExtras().getString("fav_activities");
         String fav_drinks = getIntent().getExtras().getString("fav_drinks");
         String prod_rec = getIntent().getExtras().getString("prod_rec");
         String access_time = getIntent().getExtras().getString("access_time");
@@ -110,75 +97,41 @@ public class GcmHandlerActivity extends ActionBarActivity {
             mCustomerAnalyticsLayout.setVisibility(View.VISIBLE);
 
             // Set consumer's demographics
+            int male_images[] = {R.drawable.young_male, R.drawable.middleage_male, R.drawable.senior_male};
+            int female_images[] = {R.drawable.young_female, R.drawable.middleage_female, R.drawable.senior_female};
             if (gender.equals("male")) {
-                if (age_group < 2)
-                    mGender.setImageResource(R.drawable.young_male);
-                else if (age_group < 3)
-                    mGender.setImageResource(R.drawable.middleage_male);
-                else if (age_group < 5)
-                    mGender.setImageResource(R.drawable.senior_male);
+                mGender.setImageResource(male_images[age_group]);
             } else if (gender.equals("female")) {
-                if (age_group < 2)
-                    mGender.setImageResource(R.drawable.young_female);
-                else if (age_group < 3)
-                    mGender.setImageResource(R.drawable.middleage_female);
-                else if (age_group < 5)
-                    mGender.setImageResource(R.drawable.senior_female);
+                mGender.setImageResource(female_images[age_group]);
             }
 
             mBudgetScore = Integer.parseInt(budget_score);
-            switch (mBudgetScore) {
-                case 0:
-                case 1:
-                    mBudget.setImageResource(R.drawable.small_budget);
-                    break;
-                case 2:
-                case 3:
-                    mBudget.setImageResource(R.drawable.medium_budget);
-                    break;
-                case 4:
-                    mBudget.setImageResource(R.drawable.large_budget);
-                    break;
-            }
+            if (mBudgetScore < 1)
+                mBudget.setImageResource(R.drawable.small_budget);
+            else if (mBudgetScore < 3)
+                mBudget.setImageResource(R.drawable.medium_budget);
+            else
+                mBudget.setImageResource(R.drawable.large_budget);
 
             int langResId = getResources().getIdentifier(language.toLowerCase(), "drawable", getPackageName());
             mLanguage.setImageResource(langResId);
 
             mStyleScore = Integer.parseInt(style_score);
 
-            if (fav_activities.contains("Football")) {
-                mFavActivityFootball.setImageResource(R.drawable.football);
+
+            if (fav_drinks.contains("black_tea")) {
+                mFavDrinkBlackTea.setImageResource(R.drawable.black_tea);
             }
 
-            if (fav_activities.contains("Basketball")) {
-                mFavActivityBasketball.setImageResource(R.drawable.basketball);
+            if (fav_drinks.contains("green_tea")) {
+                mFavDrinkGreenTea.setImageResource(R.drawable.green_tea);
             }
 
-            if (fav_activities.contains("Golf")) {
-                mFavActivityGolf.setImageResource(R.drawable.golf);
+            if (fav_drinks.contains("espresso")) {
+                mFavDrinkEspresso.setImageResource(R.drawable.espresso);
             }
 
-            if (fav_activities.contains("Formula")) {
-                mFavActivityFormula1.setImageResource(R.drawable.formula1);
-            }
-
-            if (fav_activities.contains("Diving")) {
-                mFavActivityDiving.setImageResource(R.drawable.diving);
-            }
-
-            if (fav_drinks.contains("Tea")) {
-                mFavDrinkTea.setImageResource(R.drawable.tea);
-            }
-
-            if (fav_drinks.contains("Coffee")) {
-                mFavDrinkCoffee.setImageResource(R.drawable.coffee);
-            }
-
-            if (fav_drinks.contains("Chocolate")) {
-                mFavDrinkChocolate.setImageResource(R.drawable.chocolate);
-            }
-
-            findMatchingProduct(prod_rec, gender, "CARRERA, AQUARACER, FORMULA1, MONACO, LINK", mBudgetScore);
+            findMatchingProduct(prod_rec, gender, mBudgetScore);
 
             postConsumerNotes();
 
@@ -327,53 +280,30 @@ public class GcmHandlerActivity extends ActionBarActivity {
 
     }
 
-    private void findMatchingProduct(String prodRec, String gender, String interests, int budgetScore) {
+    private void findMatchingProduct(String prodRec, String aGender, int budgetScore) {
 
-        // This is ugly, but whatever....
+        // Build desired Timepiece based on the consumer profile
+        try {
+            JSONObject jProdRec = new JSONObject(prodRec);
+            Timepiece.Collection collection = Timepiece.Collection.valueOf(jProdRec.getString("collection").toUpperCase());
+            Timepiece.Shape shape = Timepiece.Shape.valueOf(jProdRec.getString("shape").toUpperCase());
+            Timepiece.Type type = Timepiece.Type.valueOf(jProdRec.getString("type").toUpperCase());
+            Timepiece.Strap strap = Timepiece.Strap.valueOf(jProdRec.getString("strap").toUpperCase());
+            Timepiece.PriceRange price = Timepiece.PriceRange.values()[budgetScore];
+            Timepiece.Gender gender = Timepiece.Gender.valueOf(aGender.toUpperCase());
 
-        ArrayList<String> collections = new ArrayList<>();
-        if (!interests.equals(""))
-            collections.addAll(Arrays.asList(interests.split("\\s*,\\s*")));
-        else
-            collections.add("NONE");
+            Timepiece product = new Timepiece(collection, gender, type, shape, strap, price, 0);
 
-        Timepiece.PriceRange price;
-        Timepiece.Shape shape;
-        Timepiece.Type type;
-        Timepiece.Strap strap;
-
-        if (budgetScore == Timepiece.PriceRange.LOW.ordinal())
-            price = Timepiece.PriceRange.LOW;
-        else if (budgetScore < Timepiece.PriceRange.HIGH.ordinal())
-            price = Timepiece.PriceRange.MEDIUM;
-        else
-            price = Timepiece.PriceRange.HIGH;
-
-        if (prodRec.toLowerCase().contains("round"))
-            shape = Timepiece.Shape.ROUND;
-        else
-            shape = Timepiece.Shape.SQUARE;
-
-        if (prodRec.toLowerCase().contains("chronograph"))
-            type = Timepiece.Type.CHRONOGRAPH;
-        else
-            type = Timepiece.Type.ANALOGWATCH;
-
-        if (prodRec.toLowerCase().contains("leather"))
-            strap = Timepiece.Strap.LEATHER;
-        else
-            strap = Timepiece.Strap.STEEL;
-
-        for (String s : collections) {
-            Timepiece watch = new Timepiece(Timepiece.Collection.valueOf(s.toUpperCase()),
-                    Timepiece.Gender.valueOf(gender.toUpperCase()), type, shape, strap, price, 0);
             for (Timepiece t : mProducts) {
-                if (t.match(watch)) {
+                if (t.match(product)) {
                     Log.i(TAG, "found matching product with image id = " + t.getImageId());
                     mProdRec.setImageResource(t.getImageId());
                     return;
                 }
             }
+
+        } catch (JSONException e) {
+            Log.i(TAG, "JSONException: " + e.getMessage());
         }
     }
 
