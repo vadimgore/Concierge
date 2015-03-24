@@ -82,16 +82,17 @@ public class GcmHandlerActivity extends ActionBarActivity {
         mFavDrinkGreenTea = (ImageView) findViewById(R.id.fav_drink_green_tea);
         mFavDrinkEspresso = (ImageView) findViewById(R.id.fav_drink_espresso);
 
-        String gender = getIntent().getExtras().getString("gender");
-        String language = getIntent().getExtras().getString("language");
-        Integer age_group = Integer.parseInt(getIntent().getExtras().getString("age_group"));
-        String style_score = getIntent().getExtras().getString("style_score");
-        String budget_score = getIntent().getExtras().getString("budget_score");
-        String fav_drinks = getIntent().getExtras().getString("fav_drinks");
-        String prod_rec = getIntent().getExtras().getString("prod_rec");
         String access_time = getIntent().getExtras().getString("access_time");
-
         if (access_time != null) {
+
+            String gender = getIntent().getExtras().getString("gender");
+            String language = getIntent().getExtras().getString("language");
+            Integer age_group = Integer.parseInt(getIntent().getExtras().getString("age_group"));
+            String style_score = getIntent().getExtras().getString("style_score");
+            String budget_score = getIntent().getExtras().getString("budget_score");
+            String fav_drinks = getIntent().getExtras().getString("fav_drinks");
+            String prod_rec = getIntent().getExtras().getString("prod_rec");
+
             mProfileSharingStatus.setText("Access to Style Analytics is allowed for " +
                     access_time + " minutes");
             mCustomerAnalyticsLayout.setVisibility(View.VISIBLE);
