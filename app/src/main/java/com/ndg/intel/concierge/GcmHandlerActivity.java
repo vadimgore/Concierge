@@ -33,7 +33,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
     private static final String IFASHION_PORT = "8080";
     private static final String IFASHION_GETNOTE_API = "/consumer_notes";
 
-    static boolean mActivityStopped = false;
+    boolean mActivityStopped = false;
 
     private SharedPreferences mSharedPref;
 
@@ -144,6 +144,13 @@ public class GcmHandlerActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+        mActivityStopped = false;
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
 
@@ -155,7 +162,7 @@ public class GcmHandlerActivity extends ActionBarActivity {
         // TODO Auto-generated method stub
         super.onWindowFocusChanged(hasFocus);
 
-        final int MAX_STYLE_SCORE = 20;
+        final int MAX_STYLE_SCORE = 16;
 
         FrameLayout.LayoutParams styleParams =
                 new FrameLayout.LayoutParams(mStyleTarget.getLayoutParams());
