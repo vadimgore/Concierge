@@ -120,15 +120,15 @@ public class GcmHandlerActivity extends ActionBarActivity {
             mStyleScore = Integer.parseInt(style_score);
 
 
-            if (fav_drinks.contains("black_tea")) {
+            if (fav_drinks.contains("tea")) {
                 mFavDrinkBlackTea.setImageResource(R.drawable.black_tea);
             }
 
-            if (fav_drinks.contains("green_tea")) {
-                mFavDrinkGreenTea.setImageResource(R.drawable.green_tea);
+            if (fav_drinks.contains("chocolate")) {
+                mFavDrinkGreenTea.setImageResource(R.drawable.chocolate);
             }
 
-            if (fav_drinks.contains("espresso")) {
+            if (fav_drinks.contains("coffee")) {
                 mFavDrinkEspresso.setImageResource(R.drawable.espresso);
             }
 
